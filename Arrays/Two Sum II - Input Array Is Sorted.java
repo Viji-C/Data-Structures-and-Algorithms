@@ -26,7 +26,7 @@ Output: [1,2]
 Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
 **/
 
-// -- Brutforce Sollution --
+// Brutforce Sollution - Using two loops
 
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
@@ -46,7 +46,27 @@ class Solution {
     }
 }
 
-// -- Optimal Solution --
+// Better Sollution - Hash Map
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] ans = new int[2];
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            int moreNeeded = target-nums[i];
+            if(map.containsKey(moreNeeded))
+            {
+                ans[0] = map.get(moreNeeded)+1;
+                ans[1] = i+1;
+            }
+            map.put(nums[i],i);
+        }
+        return ans;
+    }
+}
+
+// Optimal Solution - Using Two Pointer Approach
 
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
