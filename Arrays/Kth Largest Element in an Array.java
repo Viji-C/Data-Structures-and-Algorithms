@@ -18,21 +18,45 @@ Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
 Output: 4 */
 
 // Brutforce Approach
-
+// TC - O(N log(N)) - sorting , SC - O(1)
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         int len = nums.length;
         Arrays.sort(nums);
-        int ans = -1;
-        int i = 0;
+        return nums[len-k];
+    }
+}
+
+// Better Approach
+// TC O(Nlog(N)) - iteration and adding element in the queue, SC - O(N)
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         for(int num : nums)
         {
-            if(len-k == i)
-            {
-                ans = num;
-            }
-            i++;
+            pq.add(num);
         }
-        return ans;
+        for(int i=1;i<k;i++)
+        {
+            pq.poll();
+        }
+        return pq.peek();
+    }
+}
+
+// Optimal Approach
+// TC - O(Nlog(k)), SC - O(N)
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int num : nums)
+        {
+            pq.add(num);
+            if(pq.size() > k)
+            {
+                pq.poll();
+            }
+        }
+        return pq.peek();
     }
 }
