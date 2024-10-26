@@ -28,7 +28,7 @@ class Solution {
 }
 
 // Better Approach
-// TC O(Nlog(N)) - iteration and adding element in the queue, SC - O(N)
+// TC O(N) - iteration and adding element in the queue, SC - O(N)
 class Solution {
     public int findKthLargest(int[] nums, int k) {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
