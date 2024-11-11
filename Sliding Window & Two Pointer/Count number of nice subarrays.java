@@ -93,3 +93,30 @@ class Solution {
         return count;
     }
 }
+
+// Optimal Approach - TC - O(N), TC - O(k)
+class Solution {
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return helper(nums, k) - helper(nums, k-1);
+    }
+
+    private int helper(int[] nums, int k)
+    {
+        int len = nums.length;
+        int count=0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int right = 0, left = 0;
+        for(right=0;right<len;right++)
+        {
+            map.put(nums[right], map.getOrDefault(nums[right], 0)+1);
+            while(map.size() > k)
+            {
+                map.put(nums[left], map.get(nums[left]) -1);
+                if(map.get(nums[left]) == 0) map.remove(nums[left]);
+                left++;
+            }
+            count += right - left + 1; 
+        }
+        return count;
+    }
+}
