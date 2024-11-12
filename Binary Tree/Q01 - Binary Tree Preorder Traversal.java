@@ -41,6 +41,8 @@ The number of nodes in the tree is in the range [0, 100].
  *     }
  * }
  */
+
+// Recursive Sollution
 class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<>();
@@ -53,6 +55,30 @@ class Solution {
         list.add(node.val);
         preOrderHelper(node.left, list);
         preOrderHelper(node.right, list);
+        return list;
+    }
+}
+
+// Iterative Approach
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if(root == null) return list;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+        while(!stack.isEmpty())
+        {
+            root = stack.pop();
+            list.add(root.val);
+            if(root.right != null) 
+            {
+                stack.push(root.right);
+            }
+            if(root.left != null) 
+            {
+                stack.push(root.left);
+            }
+        }
         return list;
     }
 }
