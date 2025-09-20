@@ -58,3 +58,142 @@ class Solution {
         return list;
     }
 }
+
+// Iterative Solution (Using Two Stack)
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if(root == null) return result;
+        Stack<TreeNode> stack1 = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
+        stack1.push(root);
+        while(!stack1.isEmpty())
+        {
+            TreeNode node = stack1.pop();
+            stack2.push(node);
+            if(node.left != null) stack1.push(node.left);
+            if(node.right != null) stack1.push(node.right);
+        }
+        while(!stack2.isEmpty())
+        {
+            result.add(stack2.pop().val);
+        }
+        return result;
+    }
+}
+
+// Iterative Approach (using Single Stack)
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if(root == null) return result;
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode curr = root;
+        while(curr!=null || !st.isEmpty())
+        {
+            if(curr!= null)
+            {
+                st.push(curr);
+                curr = curr.left;
+            }
+            else
+            {
+                TreeNode temp = st.peek().right;
+                if(temp == null)
+                {
+                    temp = st.pop();
+                    result.add(temp.val);
+                    while(!st.isEmpty() && temp == st.peek().right)
+                    {
+                        temp = st.pop();
+                        result.add(temp.val);
+                    }
+                }
+                else
+                {
+                    curr = temp;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
+
+// Other Solution 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if(root == null) return result;
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode curr = root;
+        TreeNode lastVisited = null;
+        while(curr!=null || !st.isEmpty())
+        {
+            if(curr!= null)
+            {
+                st.push(curr);
+                curr = curr.left;
+            }
+            else
+            {
+                TreeNode peekNode = st.peek();
+                if(peekNode.right != null && peekNode.right != lastVisited)
+                {
+                    curr = peekNode.right;
+                }
+                else
+                {
+                    lastVisited = st.pop();
+                    result.add(peekNode.val);
+                }
+            }
+        }
+        return result;
+    }
+}
